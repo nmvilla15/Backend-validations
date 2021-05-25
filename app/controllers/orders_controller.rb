@@ -19,4 +19,13 @@ class OrdersController < ApplicationController
 
   def destroy
   end
+#use to reference error handling
+  #@customer = Customer.new(customer_params)
+  #  if @customer.save
+   #   flash.notice = "The customer record was created successfully."
+    #  redirect_to @customer
+    #else
+     # flash.now.alert = @customer.errors.full_messages.to_sentence
+      #render :new
+    #end
 end
