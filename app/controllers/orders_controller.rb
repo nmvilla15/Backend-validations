@@ -1,8 +1,13 @@
 class OrdersController < ApplicationController
+  rescue_from ActiveRecord::RecordNotFound, with: :catch_not_found
+  before_action :set_order, only: [:show, :edit, :update, :destroy]
+
   def new
+    @order = Order.new
   end
 
   def index
+    @orders = Order.all
   end
 
   def show
@@ -12,20 +17,46 @@ class OrdersController < ApplicationController
   end
 
   def create
+    @order = Order.new(order_params)
+    if @order.save
+      flash.notice = "Your order was successfully created."
+      redirect_to @order
+    else
+      flash.now.alert = @order.errors.full_messages.to_sentence
+      render :new 
+    end
   end
 
   def update
+    if @order.update(order_params)
+      flash.notice = "Your order was sucessfully updated"
+      redirect_to @order
+    else
+      flash.now.alert = @order.errors.full_messages.to_sentence
+      render :edit
+    end
   end
 
   def destroy
+    @order.destroy
+    respond_to do |format|
+      format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
-#use to reference error handling
-  #@customer = Customer.new(customer_params)
-  #  if @customer.save
-   #   flash.notice = "The customer record was created successfully."
-    #  redirect_to @customer
-    #else
-     # flash.now.alert = @customer.errors.full_messages.to_sentence
-      #render :new
-    #end
-end
+
+private
+  def set_order
+    @order = Order.find(params[:id])
+  end
+
+  def order_params
+    params.require(:order).permit(:product_name, :product_count, :customer_id)
+  end
+
+  def catch_not_found(e)
+    Rails.logger.debug("We had a not found exception")
+    flash.alert = e.to_s
+    redirect_to orders_path
+  end
+end 

@@ -1,2 +1,5 @@
 #orders form partial - need to fill out
 #add #5
+
+
+<%= f.collection_select :customer_id, Customer.all, :id, :full_name, include_blank: true %>
