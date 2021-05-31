@@ -20,5 +20,12 @@
   <%= @customer.email %>
 </p>
 
+<div id="orders">
+  <% if @customer.orders.present? %>
+    <strong>Orders:</strong>
+    <%= render @customer.orders %>
+  <% end %>
+</div>
+
 <%= link_to 'Edit', edit_customer_path(@customer) %> |
 <%= link_to 'Back', customers_path %>

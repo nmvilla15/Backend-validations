@@ -2,16 +2,16 @@ class OrdersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :catch_not_found
   before_action :set_order, only: [:show, :edit, :update, :destroy]
   layout 'order_layout'
-
-  def new
-    @order = Order.new
-  end
-
+  
   def index
     @orders = Order.all
   end
 
   def show
+  end
+
+  def new
+    @order = Order.new
   end
 
   def edit
@@ -24,13 +24,13 @@ class OrdersController < ApplicationController
       redirect_to @order
     else
       flash.now.alert = @order.errors.full_messages.to_sentence
-      render :new 
+      render :new
     end
   end
 
   def update
     if @order.update(order_params)
-      flash.notice = "Your order was sucessfully updated"
+      flash.notice = "The order was updated successfully."
       redirect_to @order
     else
       flash.now.alert = @order.errors.full_messages.to_sentence
@@ -41,13 +41,14 @@ class OrdersController < ApplicationController
   def destroy
     @order.destroy
     respond_to do |format|
-      format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
+      format.html { redirect_to orders_url, notice: 'Your order was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
-private
-  def set_order
+  private
+
+  def set_order 
     @order = Order.find(params[:id])
   end
 
@@ -56,8 +57,8 @@ private
   end
 
   def catch_not_found(e)
-    Rails.logger.debug("We had a not found exception")
+    Rails.logger.debug("We had a not found exception.")
     flash.alert = e.to_s
     redirect_to orders_path
   end
-end 
+end

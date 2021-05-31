@@ -27,7 +27,7 @@ RSpec.describe Order, type: :model do
   end
 
   it "is not valid if product_count is larger than 3 digits" do
-    subject.product_count="99999"
+    subject.product_count="5555"
     expect(subject).to_not be_valid
   end
 end
