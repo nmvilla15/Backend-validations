@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+<h1>Customer</h1>
+<p>
+  <strong>First name:</strong>
+  <%= @customer.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @customer.last_name %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @customer.phone %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @customer.email %>
+</p>
+<%= link_to 'Edit', edit_customer_path(@customer) %> |
+<%= link_to 'Back', customers_path %>
+<hr>
+
+
+<div id="orders">
+
+  <h1>Orders</h1>
+    <% @customer.orders.all.each do |order| %>
+      <p>
+        <strong>Product Name:</strong>
+        <%= order.product_name %>
+      </p>
+      <p> 
+        <strong>Quantity:</strong>
+        <%= order.product_count%>
+      </p>
+    <%= link_to 'Show', order %>
+    <%= link_to 'Edit', edit_order_path(order) %>
+    <%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
+</div>
+
+
